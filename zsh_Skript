@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <title>Sweet Dreams - zsh</title>
+    <style>
+        body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f4f4f9; color: #333; }
+        pre { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 6px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>Zsh</h1>
+    <p>#!/bin/zsh
+
+COOKIE_FILE="$HOME/Library/Application Support/Google/Chrome/Default/Cookies"
+AUDIO_PATH="/Users/smile,you!/Music/+Music_Examples"
+
+# Temporäre Dateien für den Vergleich
+DB_OLD="/tmp/cookies_old.db"
+DB_NEW="/tmp/cookies_new.db"
+
+echo "Überwacht..."
+
+# Initialen Zustand der Datenbank sichern
+if [ -f "$COOKIE_FILE" ]; then
+    cp "$COOKIE_FILE" "$DB_OLD"
+fi
+
+LAST_MOD=$(stat -f "%m" "$COOKIE_FILE" 2>/dev/null)
+
+while true; do
+    if [ -f "$COOKIE_FILE" ]; then
+        CURRENT_MOD=$(stat -f "%m" "$COOKIE_FILE")
+        
+        if [ "$CURRENT_MOD" != "$LAST_MOD" ]; then
+            echo "\n[$(date '+%H:%M:%S')] Änderung in der Cookie-Datei erkannt!"
+            
+            # Aktuelle Datei kopieren (Chrome blockiert das Original)
+            cp "$COOKIE_FILE" "$DB_NEW"
+            
+            # Unterschied zwischen alter und neuer Cookie-Tabelle auslesen
+            # Zeigt die betroffenen Webseiten-Domains (host_key) an
+            changes=$(sqlite3 "$DB_NEW" "
+                SELECT DISTINCT host_key FROM cookies 
+                EXCEPT 
+                SELECT DISTINCT host_key FROM cookies_old 
+                -- Verbindung zur alten Datenbank für den Vergleich herstellen
+                ATTACH '$DB_OLD' AS cookies_old;
+            " 2>/dev/null)
+            
+            if [ -n "$changes" ]; then
+                echo "Folgende Domains haben Cookies geändert/hinzugefügt:"
+                echo "$changes" | sed 's/^/  - /'
+            else
+                echo "Metadaten-Update oder Cookie gelöscht/aktualisiert (Inhalt identisch)."
+            fi
+            
+            # Abspielen
+            set -o nocaseglob
+            files=($AUDIO_PATH/*.(mp3|wav|aiff)(N))
+            if [ ${#files} -gt 0 ]; then
+                idx=$((RANDOM % ${#files} + 1))
+                snd=$files[$idx]
+                echo "Spiele: $(basename "$snd")"
+                afplay -t 5 "$snd" &
+            fi
+            
+            # Aktuellen Zustand für den nächsten Vergleich speichern
+            cp "$DB_NEW" "$DB_OLD"
+            LAST_MOD=$CURRENT_MOD
+            sleep 1
+        fi
+    fi
+    sleep 1
+done
+
+</p>
+    
+    <h2>zsh-Skript Code:</h2>
+    <pre><code>
+#!/bin/zsh
+COOKIE_PATH="$HOME/Library/Application Support/Google/Chrome/Default/Cookies"
+echo "Überwachung läuft..."
+    </code></pre>
+</body>
+</html>
