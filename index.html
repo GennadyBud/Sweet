@@ -2,16 +2,17 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
+    <title>Code of <em>Sweet Dreams</em></title>
     <style>
         body { font-family: sans-serif; max-width: 800px; margin: 40px auto; padding: 20px; background: #f4f4f9; color: #333; }
-        pre { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 6px; overflow-x: auto; }
+        pre { background: #282c34; color: #abb2bf; padding: 20px; border-radius: 6px; overflow-x: auto; font-family: monospace; line-height: 1.5; }
     </style>
 </head>
 <body>
-    <h1>Zshweet Dreams, Code:</h1>
+    <h1>Zsh</h1>
     
-    <p>#!/bin/zsh <br>
-
+    <h2>Überwachungsskript für zsh (z-shell):</h2>
+<p>Zsh ist eine Shell auf macOS- und Linux-Maschinen. Eine Kommandozeile (englisch Command Line Interface, kurz CLI) dient als Mensch-Computer-Schnittstelle. Mit dieser Shell befehlt man dem Computer (den Transistoren und Kondensatoren auf den Siliziumblöcken mit Metallverbindungen) eine Aktion auszuführen: „Wechsle das Verzeichnis“, anders gesagt „Ändere die Adress-Spannungen für einen anderen Bereich im Speicher“ (Befehl <code>cd</code>); „Zeige den aktuellen Benutzernamen“, anders gesagt „Bringe den elektrischen Zustand der Transistoren aus dem Speicherbereich als Lichtpunkte auf den Bildschirm“ (Befehl <code>whoami</code>); oder „Erstelle eine Datei“, anders ausgedrückt „Ändere den Ladungszustand der Kondensatoren im Speicherbereich für einen neuen Eintrag“ (Befehl <code>touch</code>). Sie kann als textbasierte Alternative zur grafischen Bedienung des Computers mit der Maus benutzt werden. Hier ist der Code:</p>
 COOKIE_FILE="$HOME/Library/Application Support/Google/Chrome/Default/Cookies"
 AUDIO_PATH="/Users/and/Music/+Music_Examples"
 
@@ -50,7 +51,7 @@ while true; do
             
             if [ -n "$changes" ]; then
                 echo "Folgende Domains haben Cookies geändert/hinzugefügt:"
-                echo "$changes" | sed 's/^/  - /'
+                echo "$changes" | sed 's/^/ - /'
             else
                 echo "Metadaten-Update oder Cookie gelöscht/aktualisiert (Inhalt identisch)."
             fi
@@ -72,15 +73,6 @@ while true; do
         fi
     fi
     sleep 1
-done
-
-</p>
-    
-    <h2>zsh-Skript Code:</h2>
-    <pre><code>
-#!/bin/zsh
-COOKIE_PATH="$HOME/Library/Application Support/Google/Chrome/Default/Cookies"
-echo "Überwachung läuft..."
-    </code></pre>
+done</code></pre>
 </body>
 </html>
